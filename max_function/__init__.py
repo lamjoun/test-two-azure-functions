@@ -18,11 +18,11 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         import os
         from io import StringIO
         # Récupérer le nom du fichier et la colonne dans les paramètres de requête
-        blob_name = req.params.get('file')
-        column = req.params.get('column')
-        logging.info("---------column--------- " + str(column))
-        blob_name="test1.csv"
-        column="c1"
+        blob_name = str(req.params.get('file'))
+        column = str(req.params.get('column'))
+        logging.info("---------column--------- " + column)
+        #blob_name="test1.csv"
+        #column="c1"
         
         #if not blob_name or not column:
         #    return func.HttpResponse("Veuillez fournir le nom du fichier et la colonne.", status_code=400)
