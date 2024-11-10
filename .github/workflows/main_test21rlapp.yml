@@ -73,7 +73,7 @@ jobs:
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_7FEB31BF6600434D93CBAB2CED9543DF }}
 
       - name: 'Deploy to Azure Functions'
-        uses: Azure/functions-action@v2
+        uses: Azure/functions-action@v1
         id: deploy-to-function
         with:
           app-name: 'test21rlapp'
