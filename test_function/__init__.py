@@ -1,5 +1,6 @@
 import azure.functions as func
 import logging
+import json
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
     # Configurer le logger
@@ -22,7 +23,12 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         result = {'mean': 42}  # Valeur d'exemple
         logging.info(f"Calcul réussi avec résultat : {result}")
         
-        return func.HttpResponse(f"Moyenne calculée : {result['mean']}", status_code=200)
+        # Retourner une réponse JSON
+        return func.HttpResponse(
+            json.dumps(result),  # Convertir le dictionnaire en JSON
+            mimetype="application/json",  # Spécifier le type de contenu comme JSON
+            status_code=200
+        )
     
     except Exception as e:
         logging.error(f"Erreur lors du calcul : {str(e)}")

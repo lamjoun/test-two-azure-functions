@@ -35,7 +35,7 @@ if st.button("Calculer Maximum"):
 
 # Bouton pour tester l'appel de tesT_FUNCTION_URL
 if st.button("Tester Fonction de Test"):
-    response = requests.get(tesT_FUNCTION_URL)
+    response = requests.post(tesT_FUNCTION_URL)
     if response.status_code == 200:
         result = response.json()
         st.write(f"Réponse de test : {result}")
