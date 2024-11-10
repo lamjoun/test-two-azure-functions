@@ -1,11 +1,17 @@
 import azure.functions as func
+import logging
 import pandas as pd
 from azure.storage.blob import BlobServiceClient
 import json
 import os
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
+    # Configurer le logger
+    logging.basicConfig(level=logging.DEBUG)
+    logging.info("----max_function()-----")
+
     try:
+        logging.info("----req.params.get()-----")
         # Récupérer le nom du fichier et la colonne dans les paramètres de requête
         blob_name = req.params.get('file')
         column = req.params.get('column')
@@ -16,8 +22,9 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         # Connexion au Blob Storage
         connect_str = os.getenv("AZURE_STORAGE_CONNECTION_STRING")
         blob_service_client = BlobServiceClient.from_connection_string(connect_str)
-        container_name = "votre-conteneur"  # Remplacez par le nom de votre conteneur
-        
+        container_name = "test21container"  # Remplacez par le nom de votre conteneur
+  
+        logging.info("----Acces au container...-----")      
         # Accéder au blob (fichier CSV)
         blob_client = blob_service_client.get_blob_client(container=container_name, blob=blob_name)
         blob_data = blob_client.download_blob().content_as_text()
