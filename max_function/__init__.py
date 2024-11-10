@@ -12,7 +12,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
     try:
         logging.info("----req.params.get()-----")
-        import pandas as pd
+        #import pandas as pd
         from azure.storage.blob import BlobServiceClient
         import json
         import os
@@ -34,7 +34,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         blob_data = blob_client.download_blob().content_as_text()
 
         # Charger les données CSV dans un DataFrame pandas
-        df = pd.read_csv(pd.compat.StringIO(blob_data))
+        df = pandas.read_csv(pd.compat.StringIO(blob_data))
         
         # Vérifier si la colonne existe dans le fichier
         if column not in df.columns:
