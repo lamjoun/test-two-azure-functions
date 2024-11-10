@@ -1,0 +1,42 @@
+import azure.functions as func
+import pandas as pd
+from azure.storage.blob import BlobServiceClient
+import json
+import os
+
+def main(req: func.HttpRequest) -> func.HttpResponse:
+    try:
+        # Récupérer le nom du fichier et la colonne dans les paramètres de requête
+        blob_name = req.params.get('file')
+        column = req.params.get('column')
+        
+        if not blob_name or not column:
+            return func.HttpResponse("Veuillez fournir le nom du fichier et la colonne.", status_code=400)
+        
+        # Connexion au Blob Storage
+        connect_str = os.getenv("AZURE_STORAGE_CONNECTION_STRING")
+        blob_service_client = BlobServiceClient.from_connection_string(connect_str)
+        container_name = "votre-conteneur"  # Remplacez par le nom de votre conteneur
+        
+        # Accéder au blob (fichier CSV)
+        blob_client = blob_service_client.get_blob_client(container=container_name, blob=blob_name)
+        blob_data = blob_client.download_blob().content_as_text()
+
+        # Charger les données CSV dans un DataFrame pandas
+        df = pd.read_csv(pd.compat.StringIO(blob_data))
+        
+        # Vérifier si la colonne existe dans le fichier
+        if column not in df.columns:
+            return func.HttpResponse("La colonne spécifiée n'existe pas dans le fichier.", status_code=400)
+        
+        # Calculer la moyenne pour la colonne spécifiée
+        mean_value = df[column].mean()
+        
+        # Retourner le résultat en JSON
+        result = {
+            "mean": mean_value
+        }
+        return func.HttpResponse(json.dumps(result), mimetype="application/json", status_code=200)
+    
+    except Exception as e:
+        return func.HttpResponse(f"Erreur lors du traitement : {str(e)}", status_code=500)
