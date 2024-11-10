@@ -1,9 +1,9 @@
 import azure.functions as func
 import logging
-import pandas as pd
-from azure.storage.blob import BlobServiceClient
-import json
-import os
+#import pandas as pd
+#from azure.storage.blob import BlobServiceClient
+#import json
+#import os
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
     # Configurer le logger
@@ -12,6 +12,10 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
     try:
         logging.info("----req.params.get()-----")
+        import pandas as pd
+        from azure.storage.blob import BlobServiceClient
+        import json
+        import os
         # Récupérer le nom du fichier et la colonne dans les paramètres de requête
         blob_name = req.params.get('file')
         column = req.params.get('column')
