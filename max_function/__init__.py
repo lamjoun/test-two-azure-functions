@@ -19,9 +19,11 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         # Récupérer le nom du fichier et la colonne dans les paramètres de requête
         blob_name = req.params.get('file')
         column = req.params.get('column')
+        blob_name="test1.csv"
+        column="c1"
         
-        if not blob_name or not column:
-            return func.HttpResponse("Veuillez fournir le nom du fichier et la colonne.", status_code=400)
+        #if not blob_name or not column:
+        #    return func.HttpResponse("Veuillez fournir le nom du fichier et la colonne.", status_code=400)
         
         # Connexion au Blob Storage
         connect_str = os.getenv("AZURE_STORAGE_CONNECTION_STRING")
