@@ -16,6 +16,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         from azure.storage.blob import BlobServiceClient
         import json
         import os
+        from io import StringIO
         # Récupérer le nom du fichier et la colonne dans les paramètres de requête
         blob_name = req.params.get('file')
         column = req.params.get('column')
@@ -36,7 +37,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         blob_data = blob_client.download_blob().content_as_text()
 
         # Charger les données CSV dans un DataFrame pandas
-        df = pd.read_csv(pd.compat.StringIO(blob_data))
+        df = pd.read_csv(StringIO(blob_data))
         
         # Vérifier si la colonne existe dans le fichier
         if column not in df.columns:
