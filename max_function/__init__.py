@@ -12,7 +12,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
     try:
         logging.info("----req.params.get()-----")
-        #import pandas as pd
+        import pandas as pd
         from azure.storage.blob import BlobServiceClient
         import json
         import os
