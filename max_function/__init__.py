@@ -44,14 +44,14 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             return func.HttpResponse("La colonne spécifiée n'existe pas dans le fichier.", status_code=400)
         
         # Calculer le maximum pour la colonne spécifiée
-        max_value = df[column].max()
+        max_value = str(df[column].max())
         
         # Retourner le résultat en JSON
         result = {
             "max": max_value
         }
-        #return func.HttpResponse(json.dumps(result), mimetype="application/json", status_code=200)
-        return func.HttpResponse(str(max_value), status_code=200)
+        return func.HttpResponse(json.dumps(result), mimetype="application/json", status_code=200)
+        #return func.HttpResponse(str(max_value), status_code=200)
     
     except Exception as e:
         return func.HttpResponse(f"Erreur lors du traitement : {str(e)}", status_code=500)
