@@ -20,6 +20,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         # Récupérer le nom du fichier et la colonne dans les paramètres de requête
         blob_name = req.params.get('file')
         column = req.params.get('column')
+        logging.info("---------column---------", column)
         blob_name="test1.csv"
         column="c1"
         
