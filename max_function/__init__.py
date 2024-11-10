@@ -50,7 +50,8 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         result = {
             "max": max_value
         }
-        return func.HttpResponse(json.dumps(result), mimetype="application/json", status_code=200)
+        #return func.HttpResponse(json.dumps(result), mimetype="application/json", status_code=200)
+        return func.HttpResponse(str(max_value), status_code=200)
     
     except Exception as e:
         return func.HttpResponse(f"Erreur lors du traitement : {str(e)}", status_code=500)
