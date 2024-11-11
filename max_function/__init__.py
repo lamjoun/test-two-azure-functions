@@ -11,22 +11,19 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     logging.info("----max_function()-----")
 
     try:
-        logging.info("----req_body.get()-----")
+        logging.info("----req.params.get()-----")
         import pandas as pd
         from azure.storage.blob import BlobServiceClient
         import json
         import os
         from io import StringIO
         # Récupérer le nom du fichier et la colonne dans les paramètres de requête
-        #blob_name = str(req.params.get('file'))
-        #column = str(req.params.get('column'))
+        blob_name = str(req.params.get('file'))
+        column = str(req.params.get('column'))
         #
-        # Récupérer les paramètres JSON
-        req_body = req.get_json()
-        blob_name = req_body.get('file')
-        column = req_body.get('column')
         logging.info("---------file--------- " + blob_name)
         logging.info("---------column--------- " + column)
+        #
         blob_name="test1.csv"
         column="c1"
         
