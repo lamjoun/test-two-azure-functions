@@ -1,5 +1,6 @@
 from azure.storage.blob import BlobServiceClient
 import azure.functions as func
+from io import StringIO
 import pandas as pd
 import logging
 import json
@@ -33,7 +34,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         blob_data = blob_client.download_blob().content_as_text()
 
         # Charger les données CSV dans un DataFrame pandas
-        df = pd.read_csv(pd.compat.StringIO(blob_data))
+        df = pd.read_csv(StringIO(blob_data))
         
         # Vérifier si la colonne existe dans le fichier
         if column not in df.columns:
