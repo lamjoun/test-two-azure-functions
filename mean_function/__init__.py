@@ -26,7 +26,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         # Connexion au Blob Storage
         connect_str = os.getenv("AZURE_STORAGE_CONNECTION_STRING")
         blob_service_client = BlobServiceClient.from_connection_string(connect_str)
-        container_name = "votre-conteneur"  # Remplacez par le nom de votre conteneur
+        container_name = "test21container"
         
         # Accéder au blob (fichier CSV)
         blob_client = blob_service_client.get_blob_client(container=container_name, blob=blob_name)
