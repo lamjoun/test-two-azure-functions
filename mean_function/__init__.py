@@ -1,42 +1,31 @@
 import azure.functions as func
-import pandas as pd
-from azure.storage.blob import BlobServiceClient
+import logging
 import json
-import os
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
-    try:
-        # Récupérer le nom du fichier et la colonne dans les paramètres de requête
-        blob_name = req.params.get('file')
-        column = req.params.get('column')
-        
-        if not blob_name or not column:
-            return func.HttpResponse("Veuillez fournir le nom du fichier et la colonne.", status_code=400)
-        
-        # Connexion au Blob Storage
-        connect_str = os.getenv("AZURE_STORAGE_CONNECTION_STRING")
-        blob_service_client = BlobServiceClient.from_connection_string(connect_str)
-        container_name = "votre-conteneur"  # Remplacez par le nom de votre conteneur
-        
-        # Accéder au blob (fichier CSV)
-        blob_client = blob_service_client.get_blob_client(container=container_name, blob=blob_name)
-        blob_data = blob_client.download_blob().content_as_text()
+    logging.info("Execution de la fonction Azure.")
 
-        # Charger les données CSV dans un DataFrame pandas
-        df = pd.read_csv(pd.compat.StringIO(blob_data))
-        
-        # Vérifier si la colonne existe dans le fichier
-        if column not in df.columns:
-            return func.HttpResponse("La colonne spécifiée n'existe pas dans le fichier.", status_code=400)
-        
-        # Calculer la moyenne pour la colonne spécifiée
-        mean_value = df[column].mean()
-        
-        # Retourner le résultat en JSON
-        result = {
-            "mean": mean_value
-        }
-        return func.HttpResponse(json.dumps(result), mimetype="application/json", status_code=200)
-    
+    try:
+        # Vérifiez si les données JSON sont bien reçues
+        req_body = req.get_json()
+        blob_name = req_body.get('file')
+        column = req_body.get('column')
+
+        # Vérifiez la récupération des paramètres
+        logging.info(f"Nom du fichier: {blob_name}")
+        logging.info(f"Nom de la colonne: {column}")
+
+        # Assurez-vous que le fichier et la colonne sont fournis
+        if not blob_name or not column:
+            return func.HttpResponse("Paramètres 'file' ou 'column' manquants.", status_code=400)
+
+        # Logique de traitement ici
+        # Exemple de retour
+        result = {"mean": 42}  # Remplacez avec la logique réelle
+        return func.HttpResponse(json.dumps(result), status_code=200, mimetype="application/json")
+
+    except ValueError:
+        return func.HttpResponse("Erreur : données JSON invalides.", status_code=400)
     except Exception as e:
-        return func.HttpResponse(f"Erreur lors du traitement : {str(e)}", status_code=500)
+        logging.error(f"Erreur : {str(e)}")
+        return func.HttpResponse(f"Erreur : {str(e)}", status_code=500)
