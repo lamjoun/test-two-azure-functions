@@ -7,7 +7,7 @@ import logging
 #import os
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
-    logging.info("Execution de la fonction Azure: mean_function...")
+    logging.info("Execution de la fonction Azure: max_function...")
 
     try:
         # import
