@@ -7,7 +7,7 @@ import json
 import os
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
-    logging.info("Execution de la fonction Azure.")
+    logging.info("Execution de la fonction Azure: mean_function...")
 
     try:
         # Vérifiez si les données JSON sont bien reçues
