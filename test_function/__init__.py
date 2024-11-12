@@ -1,6 +1,7 @@
 import azure.functions as func
 import logging
 import json
+# import numpy as np  # Importer NumPy
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
     # Configurer le logger
@@ -16,19 +17,33 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     # Log de la requête entrante
     logging.info(f"Requête reçue avec les paramètres : {req.params}")
     
-    # Traitement de la requête
     try:
-        # Code de votre fonction ici
-        # Par exemple : traitement sur un fichier CSV
-        result = {'mean': 42}  # Valeur d'exemple
+        # test 
+        import numpy as np  # Importer NumPy
+        # Récupération des données de la requête
+        req_body = req.get_json()
+        values = req_body.get("values", [])
+        
+        # Vérifier si des valeurs sont fournies
+        if not values:
+            raise ValueError("Aucune donnée fournie pour le calcul.")
+
+        # Utiliser NumPy pour calculer la moyenne
+        mean_value = np.mean(values)
+        result = {'mean': mean_value}  # Résultat avec NumPy
+        
         logging.info(f"Calcul réussi avec résultat : {result}")
         
-        # Retourner une réponse JSON
+        # Retourner une réponse JSON avec le résultat
         return func.HttpResponse(
             json.dumps(result),  # Convertir le dictionnaire en JSON
             mimetype="application/json",  # Spécifier le type de contenu comme JSON
             status_code=200
         )
+    
+    except ValueError as ve:
+        logging.error(f"Erreur de validation : {str(ve)}")
+        return func.HttpResponse(f"Erreur: {str(ve)}", status_code=400)
     
     except Exception as e:
         logging.error(f"Erreur lors du calcul : {str(e)}")
