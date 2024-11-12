@@ -20,14 +20,12 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     try:
         # test 
         import numpy as np  # Importer NumPy
-        # Récupération des données de la requête
-        req_body = req.get_json()
-        values = req_body.get("values", [])
         
-        # Vérifier si des valeurs sont fournies
-        if not values:
-            raise ValueError("Aucune donnée fournie pour le calcul.")
+        # Récupération des données de la requête
 
+        # Initialisation
+        values = [2,4,4,2]
+        
         # Utiliser NumPy pour calculer la moyenne
         mean_value = np.mean(values)
         result = {'mean': mean_value}  # Résultat avec NumPy
