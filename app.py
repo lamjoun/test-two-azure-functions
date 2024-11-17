@@ -13,7 +13,7 @@ st.title("Calcul de Moyenne et Max d'une Colonne CSV sur Blob Storage")
 blob_name = st.text_input("Nom du fichier CSV dans Blob Storage", value="test1.csv")
 column = st.text_input("Nom de la colonne", value="c1")
 
-# Fonction pour afficher la réponse ou l'erreur
+# Fonction pour afficher la réponse ou l'erreur -
 def display_response(response, key):
     st.write("Statut de la réponse :", response.status_code)
     if response.status_code == 200:
